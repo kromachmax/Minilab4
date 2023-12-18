@@ -8,7 +8,6 @@ const UserProfileScreen = ({ navigation }) => {
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        // Получаем данные пользователя при загрузке компонента
         const currentUser = auth.currentUser;
         if (currentUser) {
             setUserData({
@@ -19,7 +18,6 @@ const UserProfileScreen = ({ navigation }) => {
         }
     }, []);
 
-    // Выход из аккаунта
     const signOut = () => {
         auth.signOut().then(() => {
             navigation.replace("Login");

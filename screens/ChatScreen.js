@@ -4,7 +4,7 @@ import { Avatar } from 'react-native-elements';
 import { deafultPicURL } from '../utils';
 import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { StatusBar } from 'expo-status-bar';
-import { addDoc, collection, onSnapshot, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, serverTimestamp, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 
 const ChatScreen = ( { navigation, route }) => {
@@ -64,6 +64,13 @@ const ChatScreen = ( { navigation, route }) => {
       setInput("");
    }).catch((error) => alert(error.message))
   };
+  const deleteMessage = async (messageId) => {
+    try {
+      await deleteDoc(doc(db, `chats/${route.params.id}/messages/${messageId}`));
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
 
   useLayoutEffect(() => {
         const q = query(collection(db, "chats", route.params.id, "messages"), 
@@ -108,8 +115,11 @@ const ChatScreen = ( { navigation, route }) => {
                   right={-5}
                   size={30}/>
                   <Text style={styles.userText}>{data.message}</Text>
+                  <TouchableOpacity onPress={() => deleteMessage(id)}>
+                   <Ionicons name="trash-outline" size={20} color="red" />
+                </TouchableOpacity>
                 </View>
-             ) : (
+             ) : (  
                 <View key={id} style={styles.senderMessage}>
                   <Text style={styles.senderText}>{data.message}</Text>
                   <Text style={styles.senderName}>{data.displayName}</Text>

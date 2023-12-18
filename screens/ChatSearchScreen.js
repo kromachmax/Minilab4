@@ -18,7 +18,6 @@ const ChatSearchScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  // Загрузка всех диалогов при первоначальной загрузке экрана
   useEffect(() => {
     const loadChats = async () => {
       try {
@@ -42,7 +41,6 @@ const ChatSearchScreen = ({ navigation }) => {
     loadChats();
   }, []);
 
-  // Обработка изменений ввода и выполнение поиска
   useEffect(() => {
     const performSearch = async () => {
       try {
